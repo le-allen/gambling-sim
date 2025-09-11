@@ -53,16 +53,35 @@ function App() {
       setTime(9);
       nextDay()
     };
-
   };
+
+  const gamble = async () => {
+    setBalance(balance - 10);
+    setTime(time + 1);
+    if(time === 17) {
+      setTime(9);
+      nextDay()
+    };
+  }
 
   return (
     <>
       <div>
-        <h2>welcome to your new job</h2>
-        <button onClick={() => friesInTheBag()}>
-          fries
-        </button>
+        <h2 className='text-2xl font-bold mb-4'>welcome to your new job</h2>
+        {day == DaysOfWeek.Saturday || day == DaysOfWeek.Sunday ? 
+          <div className='flex flex-col items-center gap-2 pt-2 pb-4'>
+            <button onClick={() => gamble()}>
+              gamble
+            </button> 
+            <button onClick={() => gamble()}>
+              don't gamble
+            </button> 
+          </div>
+        : 
+          <button onClick={() => friesInTheBag()}>
+            fries
+          </button>
+        }
         <p>${balance}</p>
         <p>{time}:00</p>
         <p>{day}</p>
