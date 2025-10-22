@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
-import Gambling from './components/Gambling'
+import Gambling from './components/Gambling.tsx'
 
 const DaysOfWeek = {
   Monday: "Monday",
