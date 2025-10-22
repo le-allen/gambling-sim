@@ -25,7 +25,7 @@ const App: React.FC = () => {
   const [day, setDay] = useState<Day>(DaysOfWeek.Monday);
   const [gambling, setGambling] = useState(false);
   const [gambleAmount, setGambleAmount] = useState(balance);
-  const [profit, setProfit] = useState(0);
+  // const [profit, setProfit] = useState(0);
 
   const nextDay = () => {
     switch(day) {
