@@ -56,7 +56,6 @@ const Gambling: React.FC<GamblingProps> = ({ onResult, onClose }) => {
   const [message, setMessage] = useState<string>('');
   const [gameOver, setGameOver] = useState<boolean>(false);
 
-  // ask chatgpt what tf it meant by this
   const startGame = () => {
     const newDeck = createDeck();
     const playerStart: Card[] = [newDeck.pop()!, newDeck.pop()!];
@@ -82,9 +81,6 @@ const Gambling: React.FC<GamblingProps> = ({ onResult, onClose }) => {
     let newDeck = [...deck];
     let newDealerHand = [...dealerHand];
     while (handValue(newDealerHand) < 17) {
-      // TODO: blackjack rule: dealer must stay if 17 or higher
-      // if dealer stays, players with higher hand win
-      // if player is equal at that time, it's a tie.
       const card = newDeck.pop();
       if (!card) break;
       newDealerHand.push(card);
@@ -94,12 +90,20 @@ const Gambling: React.FC<GamblingProps> = ({ onResult, onClose }) => {
     setGameOver(true);
   };
 
-useEffect(() => {
+  useEffect(() => {
     const playerVal = handValue(playerHand);
     if (playerVal > 21) {
       setGameOver(true);
     }
   }, [playerHand, gameOver]);
+
+  useEffect(() => {
+    if (gameOver) return;
+    const dealerVal = handValue(dealerHand);
+    if (dealerVal > 21) {
+      setGameOver(true);
+    }
+  }, [dealerHand, gameOver]);
 
   useEffect(() => {
     if (gameOver) {
@@ -108,7 +112,6 @@ useEffect(() => {
 
       let result: 'win' | 'loss' | 'tie' = 'tie';
       if (playerVal <= 21) {
-        // TODO: dealer busts? should have different useeffect for this is that is the case.
         if (dealerVal > 21) {
           result = 'win';
           setMessage('MAX WIN!');
@@ -144,7 +147,8 @@ useEffect(() => {
       <div>
         <p>Your Hand ({handValue(playerHand)})</p>
         <p>{playerHand.map(card => `${card.rank} ${card.suit}`).join(", ")}</p>
-        {/* dealer shows playerhandconut -1 cards ?? */}
+        {/* apparently dealer is supposed to show playerhandconut -1 cards ?? (wikihow)*/}
+        {/* idk bruh i dont even gamble */}
         <p>{message}</p>
         {gameOver ? <div><p> Dealer's hand: {handValue(dealerHand)} </p> <button onClick={onClose}>Okay</button></div> : <></>}
       </div>

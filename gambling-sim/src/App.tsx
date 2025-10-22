@@ -12,7 +12,7 @@ const DaysOfWeek = {
   Sunday: "Sunday"
 };
 
-// combine w/l/t with profit history later
+// combine win/loss/tie history with profit history later
 // let history: string[] = [];
 
 let profitHistory: number[] = [];
@@ -68,7 +68,9 @@ const App: React.FC = () => {
 
   const gamble = () => {
     setGambling(true);
-    if(gambleAmount === 0) setGambleAmount(balance);
+    if(gambleAmount === 0) {
+      dontGamble();
+    };
     progressTime();
   }
 
@@ -113,6 +115,12 @@ const App: React.FC = () => {
     console.log("Gamble amount:", gambleAmount);
   }
 
+  useEffect(() => { 
+    if(day === DaysOfWeek.Saturday || day === DaysOfWeek.Sunday) {
+      setGambleAmount(balance);
+    }
+  }, [day]);
+
   return (
     <>
       {gambling === true ? <Gambling onResult={handleGameResult} onClose={() => setGambling(false)}/> :
@@ -137,7 +145,7 @@ const App: React.FC = () => {
                     :
                     <p>broke ass mf wanna gamble? LOL</p>
                   }
-                  {gambleAmount}
+                  <p>gambling with: {gambleAmount}</p>
                 </div>
                 <button onClick={() => dontGamble()}  className='w-40 h-20'>
                   don't gamble
