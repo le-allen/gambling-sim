@@ -160,10 +160,12 @@ const App: React.FC = () => {
               </button>
             </div>
           }
-          <div>
+          <div className='flex flex-col items-center mb-2'>
             <p>${balance}</p>
             <p>{time}:00</p>
             <p>{day}</p>
+          </div>
+          <div className='flex flex-col items-center mb-2'>
             <p>{profitHistory.map(gameResult => gameResult).join(", ")}</p>
           </div>
         </div>

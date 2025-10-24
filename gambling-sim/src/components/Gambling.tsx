@@ -46,6 +46,7 @@ const createDeck = (): Card[] => {
     const j = Math.floor(Math.random() * (i + 1));
     [deck[i], deck[j]] = [deck[j], deck[i]];
   }
+  console.log("Deck Generated: ", deck);
   return deck;
 };
 
@@ -92,7 +93,7 @@ const Gambling: React.FC<GamblingProps> = ({ onResult, onClose }) => {
 
   useEffect(() => {
     const playerVal = handValue(playerHand);
-    if (playerVal > 21) {
+    if (playerVal >= 21) {
       setGameOver(true);
     }
   }, [playerHand, gameOver]);
@@ -105,13 +106,17 @@ const Gambling: React.FC<GamblingProps> = ({ onResult, onClose }) => {
     }
   }, [dealerHand, gameOver]);
 
+  // what happens if dealer gets 21
   useEffect(() => {
     if (gameOver) {
       const playerVal = handValue(playerHand);
       const dealerVal = handValue(dealerHand);
 
       let result: 'win' | 'loss' | 'tie' = 'tie';
-      if (playerVal <= 21) {
+      if (playerVal === 21) {
+        result = 'win';
+        setMessage('MAX WIN!');
+      } else if (playerVal < 21) {
         if (dealerVal > 21) {
           result = 'win';
           setMessage('MAX WIN!');
