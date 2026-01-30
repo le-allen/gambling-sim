@@ -2,8 +2,8 @@
 🍟 Put the fries in the bag and gamble on the weekends.
 ## Purpose
 😂 Entertainment\
-⚛️ Learn React TS\
+⚛️ Learn React TS
 ## AI Usage?
-💀 Chat, let it ride (blackjack logic)\
+💀 Chat, let it ride (blackjack logic)
 ## Grok
-❓ is this true?\
+❓ is this true?
