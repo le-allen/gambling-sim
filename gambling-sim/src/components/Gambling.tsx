@@ -15,6 +15,20 @@ interface Card {
 const suits: Suit[] = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
 const ranks: Rank[] = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
 
+const suitSymbol: Record<Suit, string> = {
+  Hearts: '♥',
+  Diamonds: '♦',
+  Clubs: '♣',
+  Spades: '♠',
+};
+
+const suitClass: Record<Suit, string> = {
+  Hearts: 'text-rose-400',
+  Diamonds: 'text-rose-400',
+  Clubs: 'text-slate-100',
+  Spades: 'text-slate-100',
+};
+
 const getCardValue = (rank: Rank): number => {
   if (['J', 'Q', 'K'].includes(rank)) return 10;
   if (rank === 'A') return 11; 
@@ -143,21 +157,64 @@ const Gambling: React.FC<GamblingProps> = ({ onResult, onClose }) => {
   }, []);
 
   return (
-    <>
-      <h2 className='text-2xl font-bold mb-4'>Like a moth to a flame...</h2>
-      <div className='flex center justify-center gap-20 mb-4'>
-        <button className='w-20' onClick={onHit}>Hit</button>
-        <button className='w-20'  onClick={onStay}>Stay</button>
+    <div className='w-full max-w-3xl rounded-2xl border border-emerald-400/20 bg-gradient-to-b from-emerald-900/40 to-slate-950/80 p-6 shadow-2xl'>
+      <h2 className='mb-1 text-3xl font-extrabold tracking-tight'>Blackjack Table</h2>
+      <p className='mb-5 text-sm text-emerald-100/80'>Like a moth to a flame...</p>
+
+      <div className='mb-5 grid grid-cols-2 gap-3'>
+        <button
+          className='h-11 rounded-lg bg-emerald-500 font-semibold text-black transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-50'
+          onClick={onHit}
+          disabled={gameOver}
+        >
+          Hit
+        </button>
+        <button
+          className='h-11 rounded-lg border border-white/20 bg-slate-900/60 font-semibold text-white transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50'
+          onClick={onStay}
+          disabled={gameOver}
+        >
+          Stay
+        </button>
       </div>
-      <div>
-        <p>Your Hand ({handValue(playerHand)})</p>
-        <p>{playerHand.map(card => `${card.rank} ${card.suit}`).join(", ")}</p>
+
+      <div className='space-y-4'>
+        <div className='rounded-xl border border-white/10 bg-black/30 p-4 text-left'>
+          <p className='text-xs uppercase tracking-wide text-slate-400'>Your Hand</p>
+          <p className='mb-2 text-lg font-bold'>{handValue(playerHand)}</p>
+          <div className='flex flex-wrap gap-2'>
+            {playerHand.map((card, index) => (
+              <span key={`${card.rank}-${card.suit}-${index}`} className='rounded-md border border-white/15 bg-slate-900 px-2 py-1 text-sm'>
+                <span className='font-semibold'>{card.rank}</span>{' '}
+                <span className={suitClass[card.suit]}>{suitSymbol[card.suit]}</span>
+              </span>
+            ))}
+          </div>
+        </div>
+
         {/* apparently dealer is supposed to show playerhandconut -1 cards ?? (wikihow)*/}
         {/* idk bruh i dont even gamble */}
-        <p>{message}</p>
-        {gameOver ? <div><p> Dealer's hand: {handValue(dealerHand)} </p> <button onClick={onClose}>Okay</button></div> : <></>}
+        <p className='min-h-6 text-sm font-medium text-amber-200'>{message}</p>
+
+        {gameOver ? (
+          <div className='rounded-xl border border-white/10 bg-black/30 p-4 text-left'>
+            <p className='text-xs uppercase tracking-wide text-slate-400'>Dealer Hand</p>
+            <p className='mb-2 text-lg font-bold'>{handValue(dealerHand)}</p>
+            <div className='mb-4 flex flex-wrap gap-2'>
+              {dealerHand.map((card, index) => (
+                <span key={`${card.rank}-${card.suit}-${index}`} className='rounded-md border border-white/15 bg-slate-900 px-2 py-1 text-sm'>
+                  <span className='font-semibold'>{card.rank}</span>{' '}
+                  <span className={suitClass[card.suit]}>{suitSymbol[card.suit]}</span>
+                </span>
+              ))}
+            </div>
+            <button onClick={onClose} className='h-10 rounded-lg bg-indigo-500 px-4 font-semibold text-white transition hover:bg-indigo-400'>
+              Continue
+            </button>
+          </div>
+        ) : null}
       </div>
-    </>
+    </div>
   )
 }
 export default Gambling

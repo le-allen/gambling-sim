@@ -2,8 +2,11 @@
 @source "../node_modules/@my-company/ui-lib";
 
 #root {
-  max-width: 1280px;
+  width: 100%;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1.5rem;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
   text-align: center;
 }
